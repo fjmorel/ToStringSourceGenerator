@@ -1,16 +1,14 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace ToStringSourceGenerator.Utils
+namespace ToStringSourceGenerator.Utils;
+
+internal static class SourceGeneratorHelper
 {
-    internal static class SourceGeneratorHelper
+    public static void AddCompiledOnMetadataAttribute(this GeneratorExecutionContext context)
     {
-        public static void AddCompiledOnMetadataAttribute(this SourceGeneratorContext context)
-        {
-            var sourceText = SourceText.From($"[assembly: System.Reflection.AssemblyMetadata(\"CompiledOn:\", \"{DateTime.UtcNow}\")]", Encoding.UTF8);
-            context.AddSource("Generated.cs", sourceText);
-        }
+        var sourceText = SourceText.From($"[assembly: System.Reflection.AssemblyMetadata(\"CompiledOn:\", \"{DateTime.UtcNow}\")]", Encoding.UTF8);
+        context.AddSource("Generated.cs", sourceText);
     }
 }

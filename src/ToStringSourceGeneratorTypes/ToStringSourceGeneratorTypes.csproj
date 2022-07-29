@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
- <ItemGroup>
-    <ProjectReference Include="..\ToStringSourceGenerator\ToStringSourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
-  </ItemGroup>
-</Project>

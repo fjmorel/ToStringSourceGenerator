@@ -1,10 +1,9 @@
-﻿namespace ToStringSourceGenerator.Generators
+﻿namespace ToStringSourceGenerator.Generators;
+
+public enum ObjectSeparatorToken
 {
-    public enum ObjectSeparatorToken
-    {
-        None,
-        Brace,
-        Array,
-        Quote
-    }
+    None,
+    Brace,
+    Array,
+    Quote,
 }
