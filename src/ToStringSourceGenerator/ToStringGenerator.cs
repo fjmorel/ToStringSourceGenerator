@@ -2,8 +2,7 @@
 using Microsoft.CodeAnalysis.Text;
 using System.CodeDom.Compiler;
 using System.Text;
-using ToStringSourceGenerator.Generators;
-using ToStringSourceGenerator.Utils;
+using ToStringSourceGenerator.Extensions;
 
 namespace ToStringSourceGenerator;
 
@@ -17,11 +16,12 @@ public class SourceGeneratorToString : ISourceGenerator
 
     public void Execute(GeneratorExecutionContext context)
     {
-        context.AddCompiledOnMetadataAttribute();
+        var compiledOnText = SourceText.From($"[assembly: System.Reflection.AssemblyMetadata(\"CompiledOn:\", \"{DateTime.UtcNow}\")]", Encoding.UTF8);
+        context.AddSource("Generated.cs", compiledOnText);
 
         var compilation = context.Compilation;
-        var types = CompilationHelper.GetAllTypes(context.Compilation.Assembly);
-        
+        var types = GetAllTypes(context.Compilation.Assembly);
+
         var attributes = new AttributeSymbols(
             context.Compilation.GetTypeByMetadataName("ToStringSourceGenerator.Attributes.AutoToStringAttribute")!,
             context.Compilation.GetTypeByMetadataName("ToStringSourceGenerator.Attributes.FormatToStringAttribute")!,
@@ -33,7 +33,7 @@ public class SourceGeneratorToString : ISourceGenerator
         var defaultToStringGenerator = new DefaultToStringGenerator(context, attributes);
         foreach (var type in types)
         {
-            if (type is not null && defaultToStringGenerator.ShouldUseGenerator(type))
+            if (type is not null && type.ContainsAttribute(attributes.Auto))
             {
                 defaultToStringGenerator.WriteType(type, indentedTextWriter);
             }
@@ -46,5 +46,22 @@ public class SourceGeneratorToString : ISourceGenerator
         var hintName = $"AutoToString_{compilation.Assembly.Name}.g.cs";
 
         context.AddSource(hintName, sourceText);
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetAllTypes(IAssemblySymbol symbol)
+    {
+        var result = new List<INamedTypeSymbol>();
+        GetAllTypes(result, symbol.GlobalNamespace);
+        return result.OrderBy(x => x.MetadataName, StringComparer.Ordinal);
+    }
+
+    private static void GetAllTypes(List<INamedTypeSymbol> result, INamespaceOrTypeSymbol symbol)
+    {
+        if (symbol is INamedTypeSymbol type)
+            result.Add(type);
+
+        foreach (var child in symbol.GetMembers())
+            if (child is INamespaceOrTypeSymbol nsChild)
+                GetAllTypes(result, nsChild);
     }
 }

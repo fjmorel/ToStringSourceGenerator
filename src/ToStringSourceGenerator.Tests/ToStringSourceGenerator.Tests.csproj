@@ -1,28 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-   <PropertyGroup>
+    <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <IsPackable>false</IsPackable>
-       <!--
-        CA1707: underscores (useful in test names)
-       -->
-       <NoWarn>CA1707</NoWarn>
-  </PropertyGroup>
+        <!--
+         CA1707: underscores (useful in test names)
+        -->
+        <NoWarn>CA1707</NoWarn>
+    </PropertyGroup>
 
-   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.XUnit" Version="1.1.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="XunitXML.TestLogger" Version="3.0.70" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing.XUnit" Version="1.1.1"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="XunitXML.TestLogger" Version="3.0.70"/>
+    </ItemGroup>
 
-   <ItemGroup>
-       <ProjectReference Include="..\ToStringSourceGenerator.Attributes\ToStringSourceGenerator.Attributes.csproj" />
-       <ProjectReference Include="..\ToStringSourceGenerator\ToStringSourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-   </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ToStringSourceGenerator.Attributes\ToStringSourceGenerator.Attributes.csproj"/>
+        <ProjectReference Include="..\ToStringSourceGenerator\ToStringSourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
 
 </Project>

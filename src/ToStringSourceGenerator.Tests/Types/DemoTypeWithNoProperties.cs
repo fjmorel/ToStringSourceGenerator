@@ -3,6 +3,4 @@
 namespace ToStringSourceGenerator.Tests.Types;
 
 [AutoToString]
-public partial class DemoTypeWithNoProperties
-{
-}
+public partial class DemoTypeWithNoProperties { }
